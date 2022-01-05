@@ -4,7 +4,7 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
 import { typeDefs, resolvers } from "./graphql";
 import { connectDatabase } from "./database";
 
-const port = 9000;
+const port = process.env.PORT;
 
 const mount = async (app: Application) => {
   const db = await connectDatabase();
@@ -19,11 +19,11 @@ const mount = async (app: Application) => {
     .then(async () => {
       server.applyMiddleware({ app, path: '/api' })
       app.listen(port);
+
       console.log(`[app]: http://localhost:${port}`);
       const listings = await db.listings.find({}).toArray();
-      console.log(listings)
+      console.log(listings);
     })
-
 }
 
 mount(express())
