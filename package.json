@@ -2,10 +2,11 @@
   "name": "tinyhouse-v1-server",
   "version": "0.1.0",
   "dependencies": {
-    "@graphql-tools/utils": "^8.5.5",
+    "@graphql-tools/utils": "^8.6.1",
     "apollo-server-express": "^3.6.0",
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
+    "googleapis": "^92.0.0",
     "graphql": "^16.2.0",
     "lodash.merge": "^4.6.2",
     "mongodb": "^4.2.2"
@@ -29,6 +30,7 @@
   "scripts": {
     "start": "nodemon -r dotenv/config src/index.ts",
     "build": "tsc -p ./",
-    "seed": "ts-node temp/seed.ts"
+    "seed": "ts-node temp/seed.ts",
+    "clear": "ts-node temp/clear.ts"
   }
 }
