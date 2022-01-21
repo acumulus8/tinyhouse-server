@@ -74,6 +74,8 @@ const LogInViaCookie = async (token: string, db: Database, req: Request, res: Re
 		res.clearCookie("viewer", cookieOptions);
 	}
 
+	console.log("LOG IN VIA COOKIE VIEWER: ", viewer);
+
 	return viewer;
 };
 
