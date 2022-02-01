@@ -144,7 +144,7 @@ export const listingResolvers: IResolvers = {
 			if (!viewer) throw new Error("Viewer cannot be found");
 
 			const { country, admin, city } = await Google.geocode(input.address);
-			if (!country || !admin || !city) throw new Error("invalid address input");
+			if (!country || !admin || !city) throw new Error("Invalid address input.");
 
 			const insertResult = await db.listings.insertOne({
 				_id: new ObjectId(),

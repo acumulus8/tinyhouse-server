@@ -87,9 +87,15 @@ export const typeDefs = gql`
 		numOfGuests: Int!
 	}
 
+	input ConnectStripeInput {
+		code: String!
+	}
+
 	type Mutation {
 		logIn(input: LogInInput): Viewer!
 		logOut: Viewer!
+		connectStripe(input: ConnectStripeInput!): Viewer!
+		disconnectStripe: Viewer!
 		hostListing(input: HostListingInput): Listing!
 	}
 `;
