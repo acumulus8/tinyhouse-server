@@ -1,7 +1,7 @@
 import { IResolvers } from "@graphql-tools/utils";
 import { ObjectId } from "mongodb";
 import { Request } from "express";
-import { Google } from "../../../lib/api";
+import { Google, Cloudinary } from "../../../lib/api";
 import { authorize } from "../../../lib/utils";
 import { Listing, Database, User, ListingType } from "../../../lib/types";
 import {
@@ -146,9 +146,12 @@ export const listingResolvers: IResolvers = {
 			const { country, admin, city } = await Google.geocode(input.address);
 			if (!country || !admin || !city) throw new Error("Invalid address input.");
 
+			const imageUrl = await Cloudinary.upload(input.image);
+
 			const insertResult = await db.listings.insertOne({
 				_id: new ObjectId(),
 				...input,
+				image: imageUrl,
 				bookings: [],
 				bookingsIndex: {},
 				country,
