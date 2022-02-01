@@ -36,7 +36,6 @@ export const useResolvers: IResolvers = {
 		bookings: async (user: User, { limit, page }: UserBookingsArgs, { db }: { db: Database }): Promise<UserBookingsData | null> => {
 			try {
 				if (!user.authorized) {
-					console.log("NOT AUTHORIZED: ", "user.authorized = ", user.authorized);
 					return null;
 				}
 
@@ -47,10 +46,11 @@ export const useResolvers: IResolvers = {
 
 				let cursor = await db.bookings.find({ _id: { $in: user.bookings } });
 
+				data.total = await cursor.count();
+
 				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
 				cursor = cursor.limit(limit);
 
-				data.total = await cursor.count();
 				data.result = await cursor.toArray();
 
 				return data;
@@ -67,10 +67,11 @@ export const useResolvers: IResolvers = {
 
 				let cursor = await db.listings.find({ _id: { $in: user.listings } });
 
+				data.total = await cursor.count();
+
 				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
 				cursor = cursor.limit(limit);
 
-				data.total = await cursor.count();
 				data.result = await cursor.toArray();
 
 				return data;

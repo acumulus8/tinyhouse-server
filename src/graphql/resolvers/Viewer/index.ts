@@ -67,14 +67,11 @@ const logInViaGoogle = async (code: string, token: string, db: Database, res: Re
 
 const LogInViaCookie = async (token: string, db: Database, req: Request, res: Response): Promise<User | undefined> => {
 	const updateRes = await db.users.findOneAndUpdate({ _id: req.signedCookies.viewer }, { $set: { token } }, { returnDocument: "after" });
-
 	const viewer = updateRes.value;
 
 	if (!viewer) {
 		res.clearCookie("viewer", cookieOptions);
 	}
-
-	console.log("LOG IN VIA COOKIE VIEWER: ", viewer);
 
 	return viewer;
 };

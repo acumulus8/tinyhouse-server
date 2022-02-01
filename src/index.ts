@@ -4,12 +4,14 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
 import cookieParser from "cookie-parser";
 import { typeDefs, resolvers } from "./graphql";
 import { connectDatabase } from "./database";
+import { myMocky } from "./lib/utils";
 
 const port = process.env.PORT;
 
 const mount = async (app: Application) => {
 	const db = await connectDatabase();
 	app.use(cookieParser(process.env.SECRET));
+	app.post("/myMocky", (_req, res) => res.send(myMocky));
 	const server = new ApolloServer({
 		typeDefs,
 		resolvers,
