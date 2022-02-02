@@ -91,11 +91,19 @@ export const typeDefs = gql`
 		code: String!
 	}
 
+	input CreateBookingInput {
+		id: ID!
+		source: String!
+		checkIn: String!
+		checkOut: String!
+	}
+
 	type Mutation {
 		logIn(input: LogInInput): Viewer!
 		logOut: Viewer!
 		connectStripe(input: ConnectStripeInput!): Viewer!
 		disconnectStripe: Viewer!
 		hostListing(input: HostListingInput): Listing!
+		createBooking(input: CreateBookingInput!): Booking!
 	}
 `;
