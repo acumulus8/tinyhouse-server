@@ -160,7 +160,7 @@ export const listingResolvers: IResolvers = {
 				host: viewer._id,
 			});
 
-			const insertedListing: Listing = await db.listings.findOne(insertResult.insertedId);
+			const insertedListing: Listing = await db.listings.findOne({ _id: insertResult.insertedId });
 
 			await db.users.updateOne({ _id: viewer._id }, { $push: { listings: insertedListing._id } });
 

@@ -1,10 +1,12 @@
 import { IResolvers } from "@graphql-tools/utils";
-import { Db, ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 import { Request } from "express";
 import { CreateBookingArgs } from "./types";
 import { Booking, Database, Listing, BookingsIndex } from "../../../lib/types";
 import { authorize } from "../../../lib/utils";
 import { Stripe } from "../../../lib/api/Stripe";
+
+const millisecondsPerDay = 86400000;
 
 export const resolveBookingsIndex = (bookingsIndex: BookingsIndex, checkInDate: string, checkOutDate: string): BookingsIndex => {
 	let dateCursor = new Date(checkInDate);
@@ -54,9 +56,16 @@ export const bookingResolvers: IResolvers = {
 				if (!listing) throw new Error("Listing can't be found");
 				if (listing.host === viewer._id) throw new Error("Viewer cannot book their own listing.");
 
+				const today = new Date();
 				const checkInDate = new Date(checkIn);
 				const checkOutDate = new Date(checkOut);
 				if (checkOutDate < checkInDate) throw new Error("Check out date can't be before check in date.");
+				if (checkInDate.getTime() > today.getTime() + 90 * millisecondsPerDay) {
+					throw new Error("check in date can't be more than 90 days from today");
+				}
+				if (checkOutDate.getTime() > today.getTime() + 90 * millisecondsPerDay) {
+					throw new Error("check out date can't be more than 90 days from the check in date");
+				}
 
 				const bookingsIndex = resolveBookingsIndex(listing.bookingsIndex, checkIn, checkOut);
 
