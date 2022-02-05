@@ -156,7 +156,7 @@ export const viewerResolvers: IResolvers = {
 					didRequest: true,
 				};
 			} catch (error) {
-				throw new Error("Failed to disconnect with Stripe.");
+				throw new Error(`Failed to disconnect with Stripe: ${error}`);
 			}
 		},
 	},

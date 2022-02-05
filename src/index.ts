@@ -2,6 +2,7 @@ import "reflect-metadata";
 import express, { Application } from "express";
 import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";
+import compression from "compression";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { typeDefs, resolvers } from "./graphql";
@@ -15,6 +16,9 @@ const mount = async (app: Application) => {
 
 	app.use(cookieParser(process.env.SECRET));
 	app.use(bodyParser.json({ limit: "2mb" }));
+	app.use(compression());
+	app.use(express.static(`${__dirname}/client`));
+	app.get("/*", (_req, res) => res.sendFile(`${__dirname}/client/index.html`));
 	app.post("/myMocky", (_req, res) => res.send(myMocky));
 
 	const server = new ApolloServer({

@@ -1,10 +1,18 @@
 import "dotenv/config";
 import { connectDatabase } from "../database";
 import { Listing, ListingType, User } from "../lib/types";
+<<<<<<< HEAD
 
 const listings: Listing[] = [
 	{
 		id: "5d378db94e84753160e08b30",
+=======
+import { ObjectId } from "mongodb";
+
+const listings: Listing[] = [
+	{
+		_id: new ObjectId("5d378db94e84753160e08b30"),
+>>>>>>> master
 		title: "Clean and fully furnished apartment. 5 min away from CN Tower",
 		description:
 			"2 bed, 2 bathroom cozy apartment in the heart of downtown Toronto and only 5 min away from the CN Tower, Scotiabank Arena, and Rogers Center.",
@@ -21,7 +29,11 @@ const listings: Listing[] = [
 		numOfGuests: 3,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b31",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b31"),
+>>>>>>> master
 		title: "Cozy, clean, and affordable studio in midtown",
 		description: "Cozy, clean, and affordable studio located around midtown. Perfect for a solo traveller on a budget.",
 		image: "https://res.cloudinary.com/tiny-house/image/upload/v1560641351/mock/Toronto/toronto-listing-2_aeg1rw.jpg",
@@ -37,7 +49,11 @@ const listings: Listing[] = [
 		numOfGuests: 3,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b32",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b32"),
+>>>>>>> master
 		title: "Bright comfortable room within a 4 bedroom duplex",
 		description:
 			"Bright comfortable room within a 4 bedroom duplex. 10 min drive from local airport. Relax, re-charge your batteries, and enjoy the suburbs of the Greater Toronto Area in this comfortable setting.",
@@ -54,7 +70,11 @@ const listings: Listing[] = [
 		numOfGuests: 2,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b33",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b33"),
+>>>>>>> master
 		title: "Luxury condo suite located in the heart of downtown Toronto",
 		description:
 			"Luxury condo suite located in the heart of the city with building pool/gym/sauna available 24/7. Buses, subway, and all other amenities are available close by. Booking comes with 1 available parking spot in building underground.",
@@ -71,7 +91,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b34",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b34"),
+>>>>>>> master
 		title: "Cozy 2 bedroom house located within the suburbs",
 		description:
 			"Cozy 2 bedroom house, located roughly 1 hour from the downtown hub. Close to all transporation systems such as the local bus terminal and subway.",
@@ -88,7 +112,11 @@ const listings: Listing[] = [
 		numOfGuests: 5,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b35",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b35"),
+>>>>>>> master
 		title: "Recently renovated and modern townhouse",
 		description:
 			"Recently renovated and furnished townhouse. 3 beds, 2 baths, and parking available at all times. Townhouse located within the complex of a vibrant community. Booked often, so be sure to book as soon as possible!",
@@ -105,7 +133,11 @@ const listings: Listing[] = [
 		numOfGuests: 2,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b36",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b36"),
+>>>>>>> master
 		title: "Picturesque 2 Story House - great location",
 		description:
 			"Beautiful and picturesque 2 story house located only minutes away from the center of Midtown Toronto. Street level parking available at all times. With four beds and three baths, house accomodates up to 6 guests comfortably.",
@@ -122,7 +154,11 @@ const listings: Listing[] = [
 		numOfGuests: 1,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b37",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b37"),
+>>>>>>> master
 		title: "Chic downtown condo",
 		description: "Explore downtown Toronto by staying at this beautiful chic 1 bedroom condo. Access to a lap pool, gym, and sauna at all times.",
 		image: "https://res.cloudinary.com/tiny-house/image/upload/v1560641352/mock/Toronto/toronto-listing-8_awkmrj.jpg",
@@ -138,7 +174,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b38",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b38"),
+>>>>>>> master
 		title: "Beautiful condo in the heart of Dubai Marina",
 		description:
 			"Beautiful condo suite located within the heart of Dubai Marina. 1 bedroom and 1 bathroom. Perfect for a solo traveller or couples. Designed with high-end furniture and provides a stunning view of the entire marina.",
@@ -155,7 +195,11 @@ const listings: Listing[] = [
 		numOfGuests: 3,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b39",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b39"),
+>>>>>>> master
 		title: "Premium apartment in the luxury Emirates Hills",
 		description:
 			"Premium 4 bedroom apartment located within the majestic Emirates Hills. Perfect getaway for your upcoming Dubai vacation. Accommodation includes 4 separate bedrooms, gym/entertainment area and shared luxury pool. Only a few minutes drive from and to the airport.",
@@ -172,7 +216,11 @@ const listings: Listing[] = [
 		numOfGuests: 5,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b3a",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b3a"),
+>>>>>>> master
 		title: "Penthouse condo suite by Jumeirah beach",
 		description:
 			"Large penthouse suite situated minutes away from Jumeirah beach. Beautifully preserved and recently renovated, enjoy floor to ceiling windows, private elevator, on-suite pool, and access to numerous other condo amenities.",
@@ -189,7 +237,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b3b",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b3b"),
+>>>>>>> master
 		title: "Cosy and fully furnished home",
 		description:
 			"Cosy and fully furnished home, perfect for a happy holiday to Dubai. Convenient access to nearby local transportation, restaurants, hypermarkets, and malls.",
@@ -206,7 +258,11 @@ const listings: Listing[] = [
 		numOfGuests: 5,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b3c",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b3c"),
+>>>>>>> master
 		title: "Stylish, 2 bedroom, upscale townhouse",
 		description:
 			"Freshly painted interiors with marble finished kitchen countertops, this stylish 2 bedroom townhouse serves as the perfect location for a short to medium term trip to Dubai. Located in the outskirts of the city offers a peaceful neighbourhood environment while still being close to the Dubai Metro.",
@@ -223,7 +279,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b3d",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b3d"),
+>>>>>>> master
 		title: "Comfortable studio in the heart of the city",
 		description: "Comfortable single bed studio located in the heart of modern day Dubai. Ideal for solo travellers on a budget.",
 		image: "https://res.cloudinary.com/tiny-house/image/upload/v1560641329/mock/Dubai/dubai-listing-6_dirave.jpg",
@@ -239,7 +299,11 @@ const listings: Listing[] = [
 		numOfGuests: 5,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b3e",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b3e"),
+>>>>>>> master
 		title: "Luxury en suite bedroom condo in Dubai Marina",
 		description:
 			"A luxury condo residence for those looking to travel in style. Condo includes but not limited to direct access to private parking, 200 sq ft balcony, 2 bathrooms, and incredible views of the marina.",
@@ -256,7 +320,11 @@ const listings: Listing[] = [
 		numOfGuests: 2,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b3f",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b3f"),
+>>>>>>> master
 		title: "Gorgeous mediterranean inspired villa",
 		description:
 			"Mediterranean inspired 3 bedroom, 3 bath villa situated in the heart of the Palm Jumeirah. Can accommodate up to 6 guests comfortably within its almost 3000 sq ft interior space.",
@@ -273,7 +341,11 @@ const listings: Listing[] = [
 		numOfGuests: 2,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b40",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b40"),
+>>>>>>> master
 		title: "Luxurious home with private pool",
 		description:
 			"Set on a private, southwest corner of Hollywood Hills; this large modern home includes high-end furnishings, a wine cellar, private pool, extraordinary views of the greater Los Angeles area.",
@@ -290,7 +362,11 @@ const listings: Listing[] = [
 		numOfGuests: 2,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b41",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b41"),
+>>>>>>> master
 		title: "Beverly Hills mansion",
 		description:
 			"Private modern mansion situated in the heart of Beverly Hills. Property consists of a huge pool, deck, entertainment area, and is suited to accommodate up to 12 guests.",
@@ -307,7 +383,11 @@ const listings: Listing[] = [
 		numOfGuests: 5,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b42",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b42"),
+>>>>>>> master
 		title: "Beautiful beachfront condo",
 		description: "Beautiful beachfront condo close to Venice beach.",
 		image: "https://res.cloudinary.com/tiny-house/image/upload/v1560645376/mock/Los%20Angeles/los-angeles-listing-3_wtzssz.jpg",
@@ -323,7 +403,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b43",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b43"),
+>>>>>>> master
 		title: "Stylish and modern 2 bedroom condo",
 		description:
 			"Enjoy your stay in sunny Los Angeles with this modern, recently furnished 2 bedroom condo apartment. Located only a few minutes away from local restaurants, supermarkets, and entertainment areas.",
@@ -340,7 +424,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b44",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b44"),
+>>>>>>> master
 		title: "Spacious home (3 beds/3 baths) in Bel Air, Los Angeles",
 		description:
 			"Fully furnished and spacious home situated in the heart of Bel Air, Los Angeles. Perfect accommodation for a group with a large number of guests.",
@@ -357,7 +445,11 @@ const listings: Listing[] = [
 		numOfGuests: 3,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b45",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b45"),
+>>>>>>> master
 		title: "Cozy guest house",
 		description:
 			"Beautiful, contemporary, and single bedroom guest house with en suite bathroom, private patio, and private entrance. Located in a peaceful neighbourhood about an hour away from financial district.",
@@ -374,7 +466,11 @@ const listings: Listing[] = [
 		numOfGuests: 5,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b46",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b46"),
+>>>>>>> master
 		title: "Stunning luxury home in central LA",
 		description:
 			"Stunning luxury home with a private garden by the pool, spacious outdoors, and en suite master bedroom. Located in the hub of central Los Angeles.",
@@ -391,7 +487,11 @@ const listings: Listing[] = [
 		numOfGuests: 5,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b47",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b47"),
+>>>>>>> master
 		title: "Modern downtown LA condo suite",
 		description:
 			"Modern one bedroom condo located in the downtown LA core. En suite bedroom with spacious washroom and walk in bedroom closet. Located in the heart of the city!",
@@ -408,7 +508,11 @@ const listings: Listing[] = [
 		numOfGuests: 3,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b48",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b48"),
+>>>>>>> master
 		title: "Chic condo in Camden",
 		description: "Chic, cosy condo situated in Camden. Situated in a secluded and private neighbourhood with easy acces to public transit.",
 		image: "https://res.cloudinary.com/tiny-house/image/upload/v1560645408/mock/London/london-listing-1_yedylx.jpg",
@@ -424,7 +528,11 @@ const listings: Listing[] = [
 		numOfGuests: 1,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b49",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b49"),
+>>>>>>> master
 		title: "Beautiful apartment in central London",
 		description: "Beautiful and modern apartment situated in central London and minutes away from the London Underground (railway system).",
 		image: "https://res.cloudinary.com/tiny-house/image/upload/v1560645409/mock/London/london-listing-2_mtfogm.jpg",
@@ -440,7 +548,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b4a",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b4a"),
+>>>>>>> master
 		title: "Bright furnished home",
 		description: "Relax in this brightly lit, recently furnished, single bedroom home located in the outskirts of Stratford.",
 		image: "https://res.cloudinary.com/tiny-house/image/upload/v1560645410/mock/London/london-listing-3_hbqxs1.jpg",
@@ -456,7 +568,11 @@ const listings: Listing[] = [
 		numOfGuests: 1,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b4b",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b4b"),
+>>>>>>> master
 		title: "Luxurious mansion in Cadogan Square",
 		description:
 			"Enjoy your stay in London in this beautiful and historic mansion right in the outskirts of Cadogan Square. Accommodation includes a private terrace, spacious entertainment area, seven bedrooms, and a beautiful outdoor garden.",
@@ -473,7 +589,11 @@ const listings: Listing[] = [
 		numOfGuests: 5,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b4c",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b4c"),
+>>>>>>> master
 		title: "Beautiful 2 bedroom townhouse",
 		description:
 			"Located on a quiet peaceful residential street, this 2 bedroom townhouse is a perfect accommodation for those wishing to enjoy their stay in London without breaking the bank.",
@@ -490,7 +610,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b4d",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b4d"),
+>>>>>>> master
 		title: "Magnificent suburban house in central London",
 		description:
 			"Large suburban house in central London. Fully furnished with outdoor patio, heating insulation and two spacious decks. Walking distance to everything you might need in your stay in London!",
@@ -507,7 +631,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b4e",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b4e"),
+>>>>>>> master
 		title: "Tranquil, spacious condo apartment",
 		description: "Tranquil, spacious condo apartment with a modern look and feel. Apartment accomodates up to 4 guests with 2 beds and 2 baths.",
 		image: "https://res.cloudinary.com/tiny-house/image/upload/v1560645409/mock/London/london-listing-7_pejnqb.jpg",
@@ -523,7 +651,11 @@ const listings: Listing[] = [
 		numOfGuests: 1,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b4f",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b4f"),
+>>>>>>> master
 		title: "Charming spacious flat in Kensington",
 		description:
 			"Spacious, charming flat located close to the center of Kensington. Consists of a large en suite bedroom, atmospheric lighting and beautiful wall paintings across the flat. A truly picturesque accommodation.",
@@ -540,7 +672,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b50",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b50"),
+>>>>>>> master
 		title: "Single bedroom located in the heart of downtown San Fransisco",
 		description:
 			"Furnished and spacious single bedroom location situated minutes away from the nearest Muni train stop. Perfect for the independent traveller.",
@@ -557,7 +693,11 @@ const listings: Listing[] = [
 		numOfGuests: 5,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b51",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b51"),
+>>>>>>> master
 		title: "Downtown and modern San Fransisco studio apartment",
 		description: "Downtown, modern, fully furnished, and sleek San Fransisco studio apartment.",
 		image: "https://res.cloudinary.com/tiny-house/image/upload/v1560646219/mock/San%20Fransisco/san-fransisco-listing-2_tvjygz.jpg",
@@ -573,7 +713,11 @@ const listings: Listing[] = [
 		numOfGuests: 5,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b52",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b52"),
+>>>>>>> master
 		title: "Modern apartment steps away from the beach",
 		description:
 			"Beautiful modern apartment located a few minutes away from the beach. The perfect location for a relaxing and comfortable vacation in San Fransisco!",
@@ -590,7 +734,11 @@ const listings: Listing[] = [
 		numOfGuests: 2,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b53",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b53"),
+>>>>>>> master
 		title: "Spacious 2 story beach house",
 		description:
 			"Spacious 2 story house with extended balcony and magnificent ocean views from every window. Numerous restaurants exist only a walking distance away.",
@@ -607,7 +755,11 @@ const listings: Listing[] = [
 		numOfGuests: 4,
 	},
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b54",
+=======
+		_id: new ObjectId("5d378db94e84753160e08b54"),
+>>>>>>> master
 		title: "Beachfront suite",
 		description:
 			"Beautiful beachfront suite located in Cancún hotel. Location consists of a large outdoor pool, parking, hotel convenience store, room service, and parking!",
@@ -627,7 +779,11 @@ const listings: Listing[] = [
 
 const users: User[] = [
 	{
+<<<<<<< HEAD
 		id: "5d378db94e84753160e08b55",
+=======
+		_id: "5d378db94e84753160e08b55",
+>>>>>>> master
 		token: "token_************",
 		name: "James J.",
 		avatar: "https://res.cloudinary.com/tiny-house/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1560648533/mock/users/user-profile-1_mawp12.jpg",
@@ -635,10 +791,17 @@ const users: User[] = [
 		walletId: "acct_************",
 		income: 723796,
 		bookings: [],
+<<<<<<< HEAD
 		listings: ["5d378db94e84753160e08b31", "5d378db94e84753160e08b4b", "5d378db94e84753160e08b4c"],
 	},
 	{
 		id: "5d378db94e84753160e08b56",
+=======
+		listings: [new ObjectId("5d378db94e84753160e08b31"), new ObjectId("5d378db94e84753160e08b4b"), new ObjectId("5d378db94e84753160e08b4c")],
+	},
+	{
+		_id: "5d378db94e84753160e08b56",
+>>>>>>> master
 		token: "token_************",
 		name: "Elizabeth A.",
 		avatar: "https://res.cloudinary.com/tiny-house/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1560649052/mock/users/user-profile-2_arwtdy.jpg",
@@ -647,6 +810,7 @@ const users: User[] = [
 		income: 256144,
 		bookings: [],
 		listings: [
+<<<<<<< HEAD
 			"5d378db94e84753160e08b37",
 			"5d378db94e84753160e08b38",
 			"5d378db94e84753160e08b3a",
@@ -663,6 +827,24 @@ const users: User[] = [
 	},
 	{
 		id: "5d378db94e84753160e08b57",
+=======
+			new ObjectId("5d378db94e84753160e08b37"),
+			new ObjectId("5d378db94e84753160e08b38"),
+			new ObjectId("5d378db94e84753160e08b3a"),
+			new ObjectId("5d378db94e84753160e08b3b"),
+			new ObjectId("5d378db94e84753160e08b3d"),
+			new ObjectId("5d378db94e84753160e08b41"),
+			new ObjectId("5d378db94e84753160e08b43"),
+			new ObjectId("5d378db94e84753160e08b4a"),
+			new ObjectId("5d378db94e84753160e08b50"),
+			new ObjectId("5d378db94e84753160e08b51"),
+			new ObjectId("5d378db94e84753160e08b53"),
+			new ObjectId("5d378db94e84753160e08b54"),
+		],
+	},
+	{
+		_id: "5d378db94e84753160e08b57",
+>>>>>>> master
 		token: "token_************",
 		name: "Andrew D.",
 		avatar: "https://res.cloudinary.com/tiny-house/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1560649280/mock/users/user-profile-3_omxctk.jpg",
@@ -671,6 +853,7 @@ const users: User[] = [
 		income: 272359,
 		bookings: [],
 		listings: [
+<<<<<<< HEAD
 			"5d378db94e84753160e08b30",
 			"5d378db94e84753160e08b32",
 			"5d378db94e84753160e08b34",
@@ -685,6 +868,22 @@ const users: User[] = [
 	},
 	{
 		id: "5d378db94e84753160e08b58",
+=======
+			new ObjectId("5d378db94e84753160e08b30"),
+			new ObjectId("5d378db94e84753160e08b32"),
+			new ObjectId("5d378db94e84753160e08b34"),
+			new ObjectId("5d378db94e84753160e08b35"),
+			new ObjectId("5d378db94e84753160e08b36"),
+			new ObjectId("5d378db94e84753160e08b3c"),
+			new ObjectId("5d378db94e84753160e08b3e"),
+			new ObjectId("5d378db94e84753160e08b47"),
+			new ObjectId("5d378db94e84753160e08b48"),
+			new ObjectId("5d378db94e84753160e08b4d"),
+		],
+	},
+	{
+		_id: "5d378db94e84753160e08b58",
+>>>>>>> master
 		token: "token_************",
 		name: "Danielle C.",
 		avatar: "https://res.cloudinary.com/tiny-house/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1560650165/mock/users/user-profile-4_wxi6om.jpg",
@@ -692,10 +891,17 @@ const users: User[] = [
 		walletId: "acct_************",
 		income: 465043,
 		bookings: [],
+<<<<<<< HEAD
 		listings: ["5d378db94e84753160e08b3f", "5d378db94e84753160e08b40", "5d378db94e84753160e08b44"],
 	},
 	{
 		id: "5d378db94e84753160e08b59",
+=======
+		listings: [new ObjectId("5d378db94e84753160e08b3f"), new ObjectId("5d378db94e84753160e08b40"), new ObjectId("5d378db94e84753160e08b44")],
+	},
+	{
+		_id: "5d378db94e84753160e08b59",
+>>>>>>> master
 		token: "token_************",
 		name: "Sarah K.",
 		avatar: "https://res.cloudinary.com/tiny-house/image/upload/w_1000,ar_1:1,c_fill,g_auto/v1560650436/mock/users/user-profile-5_tm8hhl.jpg",
@@ -704,6 +910,7 @@ const users: User[] = [
 		income: 104347,
 		bookings: [],
 		listings: [
+<<<<<<< HEAD
 			"5d378db94e84753160e08b33",
 			"5d378db94e84753160e08b39",
 			"5d378db94e84753160e08b42",
@@ -713,6 +920,17 @@ const users: User[] = [
 			"5d378db94e84753160e08b4e",
 			"5d378db94e84753160e08b4f",
 			"5d378db94e84753160e08b52",
+=======
+			new ObjectId("5d378db94e84753160e08b33"),
+			new ObjectId("5d378db94e84753160e08b39"),
+			new ObjectId("5d378db94e84753160e08b42"),
+			new ObjectId("5d378db94e84753160e08b45"),
+			new ObjectId("5d378db94e84753160e08b46"),
+			new ObjectId("5d378db94e84753160e08b49"),
+			new ObjectId("5d378db94e84753160e08b4e"),
+			new ObjectId("5d378db94e84753160e08b4f"),
+			new ObjectId("5d378db94e84753160e08b52"),
+>>>>>>> master
 		],
 	},
 ];
@@ -723,11 +941,19 @@ const seed = async () => {
 		const db = await connectDatabase();
 
 		for (const listing of listings) {
+<<<<<<< HEAD
 			await db.listings.create(listing).save();
 		}
 
 		for (const user of users) {
 			await db.users.create(user).save();
+=======
+			await db.listings.insertOne(listing);
+		}
+
+		for (const user of users) {
+			await db.users.insertOne(user);
+>>>>>>> master
 		}
 
 		console.log("[seed]: database seeding was successful!");

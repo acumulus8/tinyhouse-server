@@ -6,7 +6,7 @@ import { Booking, Database, Listing, BookingsIndex } from "../../../lib/types";
 import { authorize } from "../../../lib/utils";
 import { Stripe } from "../../../lib/api/Stripe";
 
-const millisecondsPerDay = 8400000;
+const millisecondsPerDay = 86400000;
 
 export const resolveBookingsIndex = (bookingsIndex: BookingsIndex, checkInDate: string, checkOutDate: string): BookingsIndex => {
 	let dateCursor = new Date(checkInDate);
@@ -65,6 +65,12 @@ export const bookingResolvers: IResolvers = {
 				if (checkOutDate.getTime() > today.getTime() + 90 * millisecondsPerDay)
 					throw new Error("check out date can't be more than 90 days from the check in date");
 				if (checkOutDate < checkInDate) throw new Error("Check out date can't be before check in date.");
+				if (checkInDate.getTime() > today.getTime() + 90 * millisecondsPerDay) {
+					throw new Error("check in date can't be more than 90 days from today");
+				}
+				if (checkOutDate.getTime() > today.getTime() + 90 * millisecondsPerDay) {
+					throw new Error("check out date can't be more than 90 days from the check in date");
+				}
 
 				const bookingsIndex = resolveBookingsIndex(listing.bookingsIndex, checkIn, checkOut);
 
