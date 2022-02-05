@@ -89,7 +89,7 @@ export const bookingResolvers: IResolvers = {
 					checkOut,
 				};
 
-				const insertedBooking: Booking = await db.bookings.create(newBooking);
+				const insertedBooking: Booking = await db.bookings.create(newBooking).save();
 
 				host.income = host.income + totalPrice;
 				await host.save();
