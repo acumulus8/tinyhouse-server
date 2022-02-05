@@ -1,5 +1,5 @@
 import { createConnection } from "typeorm";
-import { Database, User, Listing, Booking } from "../lib/types";
+import { Database } from "../lib/types";
 import { ListingEntity, BookingEntity, UserEntity } from "./entity";
 
 // const userName = process.env.DB_USER;

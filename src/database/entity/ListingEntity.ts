@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, Index, PrimaryColumn, Column, Tree } from "typeorm";
+import { Entity, BaseEntity, Index, PrimaryColumn, Column } from "typeorm";
 import { BookingsIndex, ListingType } from "../../lib/types";
 
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */

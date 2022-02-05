@@ -139,13 +139,14 @@ export const viewerResolvers: IResolvers = {
 		},
 		disconnectStripe: async (_root: undefined, _args: Record<string, never>, { db, req }: { db: Database; req: Request }): Promise<Viewer> => {
 			try {
-				let viewer = await authorize(db, req);
+				const viewer = await authorize(db, req);
 				if (!viewer || !viewer.walletId) throw new Error("Viewer cannot be found");
 
-				const updateRes = await db.users.findOneAndUpdate({ id: viewer.id }, { $set: { walletId: null } }, { returnDocument: "after" });
-				if (!updateRes.value) throw new Error("Viewer could not be updated.");
+				const wallet = await Stripe.disconnect(viewer.walletId);
+				if (!wallet) throw new Error("Viewer cannot be found or has not connected to Stripe.");
 
-				viewer = updateRes.value;
+				viewer.walletId = null;
+				await viewer.save();
 
 				return {
 					id: viewer.id,
