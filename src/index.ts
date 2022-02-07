@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import express, { Application } from "express";
 import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core";

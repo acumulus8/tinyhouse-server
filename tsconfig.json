@@ -6,6 +6,9 @@
 		"outDir": "./build",
 		"esModuleInterop": true,
 		"strict": true,
-		"strictNullChecks": false
+		"strictNullChecks": false,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"strictPropertyInitialization": false
 	}
 }

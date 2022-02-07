@@ -1,5 +1,5 @@
 import { IResolvers } from "@graphql-tools/utils";
-import { ObjectId } from "mongodb";
+import crypto from "crypto";
 import { Request } from "express";
 import { CreateBookingArgs } from "./types";
 import { Booking, Database, Listing, BookingsIndex } from "../../../lib/types";
@@ -35,13 +35,13 @@ export const resolveBookingsIndex = (bookingsIndex: BookingsIndex, checkInDate: 
 export const bookingResolvers: IResolvers = {
 	Booking: {
 		id: (booking: Booking): string => {
-			return booking._id.toString();
+			return booking.id.toString();
 		},
 		listing: (booking: Booking, _args: Record<string, never>, { db }: { db: Database }): Promise<Listing | null> => {
-			return db.listings.findOne({ _id: booking.listing });
+			return db.listings.findOne({ id: booking.listing });
 		},
 		tenant: (booking: Booking, _args: Record<string, never>, { db }: { db: Database }) => {
-			return db.users.findOne({ _id: booking.tenant });
+			return db.users.findOne({ id: booking.tenant });
 		},
 	},
 	Mutation: {
@@ -52,13 +52,18 @@ export const bookingResolvers: IResolvers = {
 				const viewer = await authorize(db, req);
 				if (!viewer) throw new Error("Viewer cannot be found");
 
-				const listing = await db.listings.findOne({ _id: new ObjectId(id) });
+				const listing = await db.listings.findOne({ id });
 				if (!listing) throw new Error("Listing can't be found");
-				if (listing.host === viewer._id) throw new Error("Viewer cannot book their own listing.");
+				if (listing.host === viewer.id) throw new Error("Viewer cannot book their own listing.");
 
 				const today = new Date();
 				const checkInDate = new Date(checkIn);
 				const checkOutDate = new Date(checkOut);
+
+				if (checkInDate.getTime() > today.getTime() + 90 * millisecondsPerDay)
+					throw new Error("check in date can't be more than 90 days from today");
+				if (checkOutDate.getTime() > today.getTime() + 90 * millisecondsPerDay)
+					throw new Error("check out date can't be more than 90 days from the check in date");
 				if (checkOutDate < checkInDate) throw new Error("Check out date can't be before check in date.");
 				if (checkInDate.getTime() > today.getTime() + 90 * millisecondsPerDay) {
 					throw new Error("check in date can't be more than 90 days from today");
@@ -69,34 +74,32 @@ export const bookingResolvers: IResolvers = {
 
 				const bookingsIndex = resolveBookingsIndex(listing.bookingsIndex, checkIn, checkOut);
 
-				const totalPrice = listing.price * ((checkOutDate.getTime() - checkInDate.getTime()) / 86400000 + 1);
+				const totalPrice = listing.price * ((checkOutDate.getTime() - checkInDate.getTime()) / millisecondsPerDay + 1);
 
-				const host = await db.users.findOne({ _id: listing.host });
+				const host = await db.users.findOne({ id: listing.host });
 				if (!host || !host.walletId) throw new Error("The host either can't be found of is not connected with Stripe");
 
 				await Stripe.charge(totalPrice, source, host.walletId);
 
-				const insertRes = await db.bookings.insertOne({
-					_id: new ObjectId(),
-					listing: listing._id,
-					tenant: viewer._id,
+				const newBooking: Booking = {
+					id: crypto.randomBytes(16).toString("hex"),
+					listing: listing.id,
+					tenant: viewer.id,
 					checkIn,
 					checkOut,
-				});
+				};
 
-				const insertedBooking: Booking = await db.bookings.findOne(insertRes.insertedId);
+				const insertedBooking: Booking = await db.bookings.create(newBooking).save();
 
-				await db.users.updateOne({ _id: host._id }, { $inc: { income: totalPrice } });
+				host.income = host.income + totalPrice;
+				await host.save();
 
-				await db.users.updateOne({ _id: viewer._id }, { $push: { bookings: insertedBooking._id } });
+				viewer.bookings.push(insertedBooking.id);
+				await viewer.save();
 
-				await db.listings.updateOne(
-					{ _id: listing._id },
-					{
-						$set: { bookingsIndex },
-						$push: { bookings: insertedBooking._id },
-					}
-				);
+				listing.bookingsIndex = bookingsIndex;
+				listing.bookings.push(insertedBooking.id);
+				await listing.save();
 
 				return insertedBooking;
 			} catch (error) {

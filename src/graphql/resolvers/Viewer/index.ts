@@ -29,23 +29,17 @@ const logInViaGoogle = async (code: string, token: string, db: Database, res: Re
 
 	if (!userId || !userName || !userAvatar || !userEmail) throw new Error("Google Login Error.");
 
-	const updateRes = await db.users.findOneAndUpdate(
-		{ _id: userId },
-		{
-			$set: {
-				name: userName,
-				avatar: userAvatar,
-				contact: userEmail,
-				token,
-			},
-		},
-		{ returnDocument: "after" }
-	);
+	let viewer = await db.users.findOne({ id: userId });
 
-	let viewer = updateRes.value;
-	if (!viewer) {
-		const insertResult = await db.users.insertOne({
-			_id: userId,
+	if (viewer) {
+		viewer.name = userName;
+		viewer.avatar = userAvatar;
+		viewer.contact = userEmail;
+		viewer.token = token;
+		await viewer.save();
+	} else {
+		const newUser: User = {
+			id: userId,
 			token,
 			name: userName,
 			avatar: userAvatar,
@@ -53,9 +47,9 @@ const logInViaGoogle = async (code: string, token: string, db: Database, res: Re
 			income: 0,
 			bookings: [],
 			listings: [],
-		});
+		};
 
-		viewer = await db.users.findOne({ _id: insertResult.insertedId });
+		viewer = await db.users.create(newUser).save();
 	}
 
 	res.cookie("viewer", userId, {
@@ -67,10 +61,12 @@ const logInViaGoogle = async (code: string, token: string, db: Database, res: Re
 };
 
 const LogInViaCookie = async (token: string, db: Database, req: Request, res: Response): Promise<User | undefined> => {
-	const updateRes = await db.users.findOneAndUpdate({ _id: req.signedCookies.viewer }, { $set: { token } }, { returnDocument: "after" });
-	const viewer = updateRes.value;
+	const viewer = await db.users.findOne({ id: req.signedCookies.viewer });
 
-	if (!viewer) {
+	if (viewer) {
+		viewer.token = token;
+		await viewer.save();
+	} else {
 		res.clearCookie("viewer", cookieOptions);
 	}
 
@@ -99,7 +95,7 @@ export const viewerResolvers: IResolvers = {
 				}
 
 				return {
-					_id: viewer._id,
+					id: viewer.id,
 					token: viewer.token,
 					avatar: viewer.avatar,
 					walletId: viewer.walletId,
@@ -121,23 +117,17 @@ export const viewerResolvers: IResolvers = {
 			try {
 				const { code } = input;
 
-				let viewer = await authorize(db, req);
+				const viewer = await authorize(db, req);
 				if (!viewer) throw new Error("Viewer cannot be found");
 
 				const wallet = await Stripe.connect(code);
 				if (!wallet) throw new Error("Stripe grant error");
 
-				const updateRes = await db.users.findOneAndUpdate(
-					{ _id: viewer._id },
-					{ $set: { walletId: wallet.stripe_user_id } },
-					{ returnDocument: "after" }
-				);
-				if (!updateRes.value) throw new Error("Viewer could not be updated.");
-
-				viewer = updateRes.value;
+				viewer.walletId = wallet.stripe_user_id;
+				await viewer.save();
 
 				return {
-					_id: viewer._id,
+					id: viewer.id,
 					token: viewer.token,
 					avatar: viewer.avatar,
 					walletId: viewer.walletId,
@@ -149,19 +139,17 @@ export const viewerResolvers: IResolvers = {
 		},
 		disconnectStripe: async (_root: undefined, _args: Record<string, never>, { db, req }: { db: Database; req: Request }): Promise<Viewer> => {
 			try {
-				let viewer = await authorize(db, req);
-				if (!viewer || !viewer.walletId) throw new Error("Viewer cannot be found or has not connected with Stripe");
+				const viewer = await authorize(db, req);
+				if (!viewer || !viewer.walletId) throw new Error("Viewer cannot be found");
 
 				const wallet = await Stripe.disconnect(viewer.walletId);
-				if (!wallet) throw new Error("Stripe disconnect error.");
+				if (!wallet) throw new Error("Viewer cannot be found or has not connected to Stripe.");
 
-				const updateRes = await db.users.findOneAndUpdate({ _id: viewer._id }, { $set: { walletId: null } }, { returnDocument: "after" });
-				if (!updateRes.value) throw new Error("Viewer could not be updated.");
-
-				viewer = updateRes.value;
+				viewer.walletId = null;
+				await viewer.save();
 
 				return {
-					_id: viewer._id,
+					id: viewer.id,
 					token: viewer.token,
 					avatar: viewer.avatar,
 					walletId: viewer.walletId,
@@ -173,9 +161,6 @@ export const viewerResolvers: IResolvers = {
 		},
 	},
 	Viewer: {
-		id: (viewer: Viewer): string | undefined => {
-			return viewer._id;
-		},
 		hasWallet: (viewer: Viewer): boolean | undefined => {
 			return viewer.walletId ? true : undefined;
 		},

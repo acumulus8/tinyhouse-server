@@ -8,12 +8,12 @@ export const useResolvers: IResolvers = {
 	Query: {
 		user: async (_root: undefined, { id }: UserArgs, { db, req }: { db: Database; req: Request }): Promise<User> => {
 			try {
-				const user = await db.users.findOne({ _id: id });
+				const user = (await db.users.findOne({ id: id })) as User;
 
 				if (!user) throw new Error("User can't be found");
 
 				const viewer = await authorize(db, req);
-				if (viewer && viewer._id === user._id) {
+				if (viewer && viewer.id === user.id) {
 					user.authorized = true;
 				}
 
@@ -25,7 +25,7 @@ export const useResolvers: IResolvers = {
 	},
 	User: {
 		id: (user: User): string => {
-			return user._id;
+			return user.id;
 		},
 		hasWallet: (user: User): boolean => {
 			return Boolean(user.walletId);
@@ -44,14 +44,13 @@ export const useResolvers: IResolvers = {
 					result: [],
 				};
 
-				let cursor = await db.bookings.find({ _id: { $in: user.bookings } });
+				const bookings = await db.bookings.findByIds(user.bookings, {
+					skip: page > 0 ? (page - 1) * limit : 0,
+					take: limit,
+				});
 
-				data.total = await cursor.count();
-
-				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
-				cursor = cursor.limit(limit);
-
-				data.result = await cursor.toArray();
+				data.total = user.bookings.length;
+				data.result = bookings;
 
 				return data;
 			} catch (error) {
@@ -65,14 +64,13 @@ export const useResolvers: IResolvers = {
 					result: [],
 				};
 
-				let cursor = await db.listings.find({ _id: { $in: user.listings } });
+				const listings = await db.listings.findByIds(user.listings, {
+					skip: page > 0 ? (page - 1) * limit : 0,
+					take: limit,
+				});
 
-				data.total = await cursor.count();
-
-				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
-				cursor = cursor.limit(limit);
-
-				data.result = await cursor.toArray();
+				data.total = user.listings.length;
+				data.result = listings;
 
 				return data;
 			} catch (error) {
