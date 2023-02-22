@@ -4,6 +4,7 @@
 	"dependencies": {
 		"@googlemaps/google-maps-services-js": "^3.3.7",
 		"@graphql-tools/utils": "^8.6.1",
+		"@types/mongodb": "^4.0.7",
 		"apollo-server-express": "^3.6.0",
 		"body-parser": "^1.19.1",
 		"cloudinary": "^1.28.1",
@@ -14,10 +15,10 @@
 		"googleapis": "^92.0.0",
 		"graphql": "^16.2.0",
 		"lodash.merge": "^4.6.2",
+		"mongodb": "^4.2.2",
 		"pg": "^8.7.3",
 		"reflect-metadata": "^0.1.13",
-		"stripe": "^8.201.0",
-		"typeorm": "^0.2.41"
+		"stripe": "^8.201.0"
 	},
 	"devDependencies": {
 		"@types/body-parser": "^1.19.2",

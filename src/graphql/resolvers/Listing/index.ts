@@ -1,5 +1,5 @@
 import { IResolvers } from "@graphql-tools/utils";
-import crypto from "crypto";
+import { ObjectId } from "mongodb";
 import { Request } from "express";
 import { Google, Cloudinary } from "../../../lib/api";
 import { authorize } from "../../../lib/utils";
@@ -14,7 +14,6 @@ import {
 	ListingsQuery,
 	HostListingArgs,
 	HostListingInput,
-	Order,
 } from "./types";
 
 const verifyHostListingInput = ({ title, description, type, price }: HostListingInput) => {
@@ -36,11 +35,11 @@ export const listingResolvers: IResolvers = {
 	Query: {
 		listing: async (_root: undefined, { id }: ListingArgs, { db, req }: { db: Database; req: Request }): Promise<Listing> => {
 			try {
-				const listing = (await db.listings.findOne({ id: id })) as Listing;
+				const listing = (await db.listings.findOne({ _id: new ObjectId(id) })) as Listing;
 				if (!listing) throw new Error("Listing can't be found");
 
 				const viewer = await authorize(db, req);
-				if (viewer && viewer.id === listing.host) {
+				if (viewer && viewer._id === listing.host) {
 					listing.authorized = true;
 				}
 
@@ -73,26 +72,22 @@ export const listingResolvers: IResolvers = {
 					data.region = `${cityText}${adminText}${country}`;
 				}
 
-				let order: Order | null = null;
+				let cursor = await db.listings.find(query);
 
 				if (filter && filter == ListingsFilter.PRICE_LOW_TO_HIGH) {
-					order = { price: "ASC" };
+					cursor = cursor.sort({ price: 1 });
 				}
 
 				if (filter && filter === ListingsFilter.PRICE_HIGH_TO_LOW) {
-					order = { price: "DESC" };
+					cursor.sort({ price: -1 });
 				}
 
-				const count = await db.listings.count(query);
-				const listings = await db.listings.find({
-					where: { ...query },
-					order: { ...order },
-					skip: page > 0 ? (page - 1) * limit : 0,
-					take: limit,
-				});
+				data.total = await cursor.count();
 
-				data.total = count;
-				data.result = listings;
+				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
+				cursor = cursor.limit(limit);
+
+				data.result = await cursor.toArray();
 
 				return data;
 			} catch (error) {
@@ -101,8 +96,11 @@ export const listingResolvers: IResolvers = {
 		},
 	},
 	Listing: {
+		id: (listing: Listing): string => {
+			return listing._id.toString();
+		},
 		host: async (listing: Listing, _args: Record<string, null>, { db }: { db: Database }): Promise<User> => {
-			const host = await db.users.findOne({ id: listing.host });
+			const host = await db.users.findOne({ _id: listing.host });
 			if (!host) {
 				throw new Error("host can't be found");
 			}
@@ -122,13 +120,14 @@ export const listingResolvers: IResolvers = {
 					result: [],
 				};
 
-				const bookings = await db.bookings.findByIds(listing.bookings, {
-					skip: page > 0 ? (page - 1) * limit : 0,
-					take: limit,
-				});
+				let cursor = await db.bookings.find({ _id: { $in: listing.bookings } });
 
-				data.total = listing.bookings.length;
-				data.result = bookings;
+				data.total = await cursor.count();
+
+				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0);
+				cursor = cursor.limit(limit);
+
+				data.result = await cursor.toArray();
 
 				return data;
 			} catch (error) {
@@ -148,8 +147,8 @@ export const listingResolvers: IResolvers = {
 
 			const imageUrl = await Cloudinary.upload(input.image);
 
-			const newListing: Listing = {
-				id: crypto.randomBytes(16).toString("hex"),
+			const insertResult = await db.listings.insertOne({
+				_id: new ObjectId(),
 				...input,
 				image: imageUrl,
 				bookings: [],
@@ -157,13 +156,12 @@ export const listingResolvers: IResolvers = {
 				country,
 				admin,
 				city,
-				host: viewer.id,
-			};
+				host: viewer._id,
+			});
 
-			const insertedListing: Listing = await db.listings.create(newListing).save();
+			const insertedListing: Listing = await db.listings.findOne(insertResult.insertedId);
 
-			viewer.listings.push(insertedListing.id);
-			await viewer.save();
+			await db.users.updateOne({ _id: viewer._id }, { $push: { listings: insertedListing._id } });
 
 			return insertedListing;
 		},

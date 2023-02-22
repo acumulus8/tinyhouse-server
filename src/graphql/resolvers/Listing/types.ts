@@ -51,7 +51,3 @@ export interface HostListingInput {
 export interface HostListingArgs {
 	input: HostListingInput;
 }
-
-export interface Order {
-	price: 1 | "ASC" | "DESC" | -1 | undefined;
-}

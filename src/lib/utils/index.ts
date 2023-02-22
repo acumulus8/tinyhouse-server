@@ -1,15 +1,13 @@
 import { Request } from "express";
-import { Database } from "../types";
-import { UserEntity } from "../../database/entity";
+import { Database, User } from "../types";
 
-export const authorize = async (db: Database, req: Request): Promise<UserEntity | null> => {
+export const authorize = async (db: Database, req: Request): Promise<User | null> => {
 	const token = await req.get("X-CSRF-TOKEN");
 	const viewer = await db.users.findOne({
-		id: req.signedCookies.viewer,
+		_id: req.signedCookies.viewer,
 		token,
 	});
-	if (!viewer) return null;
-
+	// if (!viewer) return null;
 	return viewer;
 };
 

@@ -1,5 +1,5 @@
 import { IResolvers } from "@graphql-tools/utils";
-import crypto from "crypto";
+import { ObjectId } from "mongodb";
 import { Request } from "express";
 import { CreateBookingArgs } from "./types";
 import { Booking, Database, Listing, BookingsIndex } from "../../../lib/types";
@@ -35,7 +35,7 @@ export const resolveBookingsIndex = (bookingsIndex: BookingsIndex, checkInDate: 
 export const bookingResolvers: IResolvers = {
 	Booking: {
 		id: (booking: Booking): string => {
-			return booking.id.toString();
+			return booking._id.toString();
 		},
 		listing: (booking: Booking, _args: Record<string, never>, { db }: { db: Database }): Promise<Listing | null> => {
 			return db.listings.findOne({ id: booking.listing });
@@ -52,9 +52,9 @@ export const bookingResolvers: IResolvers = {
 				const viewer = await authorize(db, req);
 				if (!viewer) throw new Error("Viewer cannot be found");
 
-				const listing = await db.listings.findOne({ id });
+				const listing = await db.listings.findOne({ _id: new ObjectId(id) });
 				if (!listing) throw new Error("Listing can't be found");
-				if (listing.host === viewer.id) throw new Error("Viewer cannot book their own listing.");
+				if (listing.host === viewer._id) throw new Error("Viewer cannot book their own listing.");
 
 				const today = new Date();
 				const checkInDate = new Date(checkIn);
@@ -76,30 +76,24 @@ export const bookingResolvers: IResolvers = {
 
 				const totalPrice = listing.price * ((checkOutDate.getTime() - checkInDate.getTime()) / millisecondsPerDay + 1);
 
-				const host = await db.users.findOne({ id: listing.host });
+				const host = await db.users.findOne({ _id: listing.host });
 				if (!host || !host.walletId) throw new Error("The host either can't be found of is not connected with Stripe");
 
 				await Stripe.charge(totalPrice, source, host.walletId);
 
-				const newBooking: Booking = {
-					id: crypto.randomBytes(16).toString("hex"),
-					listing: listing.id,
-					tenant: viewer.id,
+				const insertRes = await db.bookings.insertOne({
+					_id: new ObjectId(),
+					listing: listing._id,
+					tenant: viewer._id,
 					checkIn,
 					checkOut,
-				};
+				});
 
-				const insertedBooking: Booking = await db.bookings.create(newBooking).save();
+				const insertedBooking: Booking = await db.bookings.findOne(insertRes.insertedId);
 
-				host.income = host.income + totalPrice;
-				await host.save();
-
-				viewer.bookings.push(insertedBooking.id);
-				await viewer.save();
-
-				listing.bookingsIndex = bookingsIndex;
-				listing.bookings.push(insertedBooking.id);
-				await listing.save();
+				await db.users.updateOne({ _id: host._id }, { $inc: { income: totalPrice } });
+				await db.users.updateOne({ _id: viewer._id }, { $push: { bookings: insertedBooking._id } });
+				await db.listings.updateOne({ _id: listing._id }, { $set: { bookingsIndex }, $push: { bookings: insertedBooking._id } });
 
 				return insertedBooking;
 			} catch (error) {
