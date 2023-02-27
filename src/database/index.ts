@@ -7,12 +7,15 @@ const cluster = process.env.DB_CLUSTER;
 const url = `mongodb+srv://${userName}:${password}@${cluster}.mongodb.net/main?retryWrites=true&w=majority`;
 
 export const connectDatabase = async (): Promise<Database> => {
-	const client = await MongoClient.connect(url);
-	const db = client.db("main");
-
-	return {
-		bookings: db.collection<Booking>("bookings"),
-		listings: db.collection<Listing>("listings"),
-		users: db.collection<User>("users"),
-	};
+	try {
+		const client = await MongoClient.connect(url);
+		const db = client.db("main");
+		return {
+			bookings: db.collection<Booking>("bookings"),
+			listings: db.collection<Listing>("listings"),
+			users: db.collection<User>("users"),
+		};
+	} catch (err) {
+		throw new Error("Failed to connect to database: " + err);
+	}
 };

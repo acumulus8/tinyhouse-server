@@ -26,13 +26,15 @@ const mount = async (app: Application) => {
 		resolvers,
 		context: ({ req, res }) => ({ db, req, res }),
 		plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
+		cache: "bounded",
+		introspection: true,
 	});
 
 	server.start().then(async () => {
 		server.applyMiddleware({ app, path: "/api" });
 		app.listen(port);
 
-		console.log(`[app]: running at http://localhost:${port}`);
+		console.log(`[app]: running at http://localhost:${port}/api`);
 	});
 };
 

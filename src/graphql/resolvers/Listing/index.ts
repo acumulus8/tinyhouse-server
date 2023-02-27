@@ -1,5 +1,5 @@
 import { IResolvers } from "@graphql-tools/utils";
-import { ObjectId } from "mongodb";
+import { ObjectId, Filter } from "mongodb";
 import { Request } from "express";
 import { Google, Cloudinary } from "../../../lib/api";
 import { authorize } from "../../../lib/utils";
@@ -147,7 +147,7 @@ export const listingResolvers: IResolvers = {
 
 			const imageUrl = await Cloudinary.upload(input.image);
 
-			const insertResult = await db.listings.insertOne({
+			const insertResult = (await db.listings.insertOne({
 				_id: new ObjectId(),
 				...input,
 				image: imageUrl,
@@ -157,9 +157,9 @@ export const listingResolvers: IResolvers = {
 				admin,
 				city,
 				host: viewer._id,
-			});
+			})) as Filter<Listing>;
 
-			const insertedListing: Listing = await db.listings.findOne(insertResult.insertedId);
+			const insertedListing: Listing = await db.listings.findOne(insertResult);
 
 			await db.users.updateOne({ _id: viewer._id }, { $push: { listings: insertedListing._id } });
 
