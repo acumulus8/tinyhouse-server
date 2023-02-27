@@ -39,7 +39,7 @@
 		"typescript": "^4.5.4"
 	},
 	"scripts": {
-		"start": "node src/index.ts",
+		"start": "nodemon -r dotenv/config src/index.ts",
 		"build": "tsc -p ./",
 		"seed": "ts-node src/temp/seed.ts",
 		"clear": "ts-node src/temp/clear.ts"
