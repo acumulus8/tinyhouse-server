@@ -12,8 +12,6 @@ This is the backend server for Tinyhouse, a full-stack JavaScript web applicatio
 
 To start the server in development mode and watch for changes, run `npm run dev`. This project uses `nodemon` to automatically restart the server on changes.
 
-This project uses `ESLint` for code linting and `Prettier` for code formatting. To run both tools, use the following command: `npm run lint`. To only run `ESLint`, use `npm run lint:eslint`. To only run `Prettier`, use `npm run lint:prettier`.
-
 ## Deployment
 
 This project can be deployed to a cloud provider like AWS or Heroku. Before deploying, make sure to set the following environment variables:
