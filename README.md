@@ -8,18 +8,6 @@ This is the backend server for Tinyhouse, a full-stack JavaScript web applicatio
 2. Install dependencies: `npm install`
 3. Start the server: `npm start`
 
-## Development
-
-To start the server in development mode and watch for changes, run `npm run dev`. This project uses `nodemon` to automatically restart the server on changes.
-
-## Deployment
-
-This project can be deployed to a cloud provider like AWS or Heroku. Before deploying, make sure to set the following environment variables:
-
-- `MONGO_URI`: the URI for the MongoDB database
-- `PORT`: the port number for the server
-- `JWT_SECRET`: the secret key for JSON Web Tokens
-
 ## API Documentation
 
 This server exposes the following endpoints:
