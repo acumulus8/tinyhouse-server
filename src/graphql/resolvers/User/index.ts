@@ -4,7 +4,7 @@ import { authorize } from "../../../lib/utils";
 import { Database, User } from "../../../lib/types";
 import { UserArgs, UserBookingsArgs, UserBookingsData, UserListingsArgs, UserListingsData } from "./types";
 
-export const useResolvers: IResolvers = {
+export const userResolvers: IResolvers = {
 	Query: {
 		user: async (_root: undefined, { id }: UserArgs, { db, req }: { db: Database; req: Request }): Promise<User> => {
 			try {
