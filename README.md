@@ -2,9 +2,9 @@
 
 This repository contains the server-side code for a full-stack Airbnb clone built with Express, TypeScript, GraphQL, Apollo Server, and MongoDB. The server code provides the backend functionality for the application.
 
--   [About](#about)
--   [Technical Summary](#technical-summary)
--   [Project Structure](#project-structure)
+-   [Features](#features)
+-   [Code Structure](#code-structure)
+-   [License](#license)
 
 ## Features
 
