@@ -7,7 +7,7 @@ export const authorize = async (db: Database, req: Request): Promise<User | null
 		_id: req.signedCookies.viewer,
 		token,
 	});
-	// if (!viewer) return null;
+
 	return viewer;
 };
 
