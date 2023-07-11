@@ -34,7 +34,7 @@ const logInViaGoogle = async (code: string, token: string, db: Database, res: Re
 		{ $set: { name: userName, avatar: userAvatar, contact: userEmail, token } },
 		{ returnDocument: "after" }
 	);
-	console.log("______USER ID IN LOGIN VIA GOOGLE: ", userId);
+
 	let viewer = updateRes.value;
 	if (!viewer) {
 		const insertResult = await db.users.insertOne({
@@ -65,7 +65,7 @@ const LogInViaCookie = async (token: string, db: Database, req: Request, res: Re
 	if (!viewer) {
 		res.clearCookie("viewer", cookieOptions);
 	}
-	console.log("+_+_+_+_+_LOGGINING IN VIA COOKIE: ", viewer);
+
 	return viewer;
 };
 
@@ -84,9 +84,7 @@ export const viewerResolvers: IResolvers = {
 			try {
 				const code = input ? input.code : null;
 				const token = crypto.randomBytes(16).toString("hex");
-				console.log("+++++CODE: ", code);
 				const viewer: User | undefined = code ? await logInViaGoogle(code, token, db, res) : await LogInViaCookie(token, db, req, res);
-				console.log("+++++VIEWER", viewer);
 				if (!viewer) {
 					return { didRequest: true };
 				}
